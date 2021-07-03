@@ -27,6 +27,7 @@ module.exports = {
       const result = await movieModel.createData(setData)
       return helper.response(res, 200, 'Success Create movie', result)
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },

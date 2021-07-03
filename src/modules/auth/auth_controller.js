@@ -8,39 +8,34 @@ require('dotenv').config()
 module.exports = {
   register: async (req, res) => {
     try {
-      const { userEmail, userPassword, userPhone } = req.body
+      const { userEmail, userPassword } = req.body
       const salt = bcrypt.genSaltSync(10)
       const encryptPassword = bcrypt.hashSync(userPassword, salt)
 
-      const setData = {
+      const data = {
         user_email: userEmail,
-        user_password: encryptPassword,
-        user_phone: userPhone
+        user_password: encryptPassword
       }
 
-      const checkEmailUser = await authModel.getDataCondition({
+      const checkEmailUser = await authModel.getDataByCondition({
         user_email: userEmail
       })
 
       console.log(checkEmailUser)
 
       if (checkEmailUser.length === 0) {
-        const result = await authModel.register(setData)
+        const result = await authModel.register(data)
         delete result.user_password
+        console.log(result)
+        // const url = `http://localhost:3005/backend5/api/v1/auth/change-data/${result.id}`
+        // sendMail('Please activate your account', url, userEmail)
 
-        const url = `http://localhost:3005/backend5/api/v1/auth/change-data/${result.id}`
-        sendMail('Please activate your account', url, userEmail)
-
-        return helper.response(
-          res,
-          200,
-          'Succes register User Please Check your Email to Activate your Account !',
-          result
-        )
+        return helper.response(res, 200, 'Succes register User !', result)
       } else {
         return helper.response(res, 400, 'Email has been registered')
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
@@ -48,7 +43,7 @@ module.exports = {
   login: async (req, res) => {
     try {
       const { userEmail, userPassword } = req.body
-      const checkEmailUser = await authModel.getDataCondition({
+      const checkEmailUser = await authModel.getDataByCondition({
         user_email: userEmail
       })
 
@@ -77,7 +72,7 @@ module.exports = {
           const result = { ...payload, token }
           return helper.response(res, 200, 'Succes Login !', result)
         } else {
-          return helper.response(res, 400, 'Worng password')
+          return helper.response(res, 400, 'Wrong password')
         }
       } else {
         return helper.response(res, 404, 'Email not Registerd')
@@ -89,42 +84,40 @@ module.exports = {
 
   changeData: async (req, res) => {
     try {
-      let token = req.params.token
-      let userId = ''
-      let setData = {}
-      // console.log(token)
-      if (/^\d+$/.test(token)) {
-        userId = token
-        setData = { user_verification: 1 }
-      } else {
-        jwt.verify(token, process.env.PRIVATE_KEY, (error, result) => {
-          if (
-            (error && error.name === 'JsonWebTokenError') ||
-            (error && error.name === 'TokenExpiredError')
-          ) {
-            return helper.response(res, 403, error.message)
-          } else {
-            // console.log('DECODE token', result)
-            token = result
-          }
-        })
-        userId = token.userId
-        setData = token.setData
-      }
+      const { id } = req.params
+      const { userName, userEmail, userPassword } = req.body
+      const checkUserData = await authModel.getDataByCondition({
+        user_id: id
+      })
+      const salt = bcrypt.genSaltSync(10)
+      const encryptPassword = bcrypt.hashSync(userPassword, salt)
 
-      if (userId && setData) {
-        // console.log('Update', setData)
-        const result = await authModel.updateData(setData, userId)
+      const setData = {
+        user_name: userName,
+        user_email: userEmail,
+        user_password: encryptPassword,
+        user_updated_at: new Date(Date.now())
+      }
+      if (checkUserData.length > 0) {
+        const result = await authModel.updateData(setData, {
+          user_id: id
+        })
         return helper.response(
           res,
           200,
-          'succes update data',
-          Object.keys(result)
+          `Success Update User Data By Id: ${id}`,
+          result
         )
       } else {
-        return helper.response(res, 400, 'Bad Request', null)
+        return helper.response(
+          res,
+          404,
+          `User Data By Id ${id} Not Found`,
+          null
+        )
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
@@ -162,7 +155,7 @@ module.exports = {
           null
         )
       } else {
-        const checkEmailUser = await authModel.getDataCondition({
+        const checkEmailUser = await authModel.getDataByCondition({
           user_email: req.body.userEmail
         })
         if (checkEmailUser.length > 0) {
@@ -173,6 +166,33 @@ module.exports = {
       }
     } catch (error) {
       // console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      const { id } = req.params
+      const checkUserData = await authModel.getDataByCondition({
+        user_id: id
+      })
+      if (checkUserData.length > 0) {
+        const result = await authModel.deleteData(id)
+        return helper.response(
+          res,
+          200,
+          `Success Delete User Data By id: ${id}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `movie Data By Id ${id} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   }
