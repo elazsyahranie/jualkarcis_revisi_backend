@@ -1,3 +1,5 @@
+const redis = require('redis')
+const client = redis.createClient()
 const helper = require('../../helpers/wrapper')
 const movieModel = require('./movie_model')
 const { deleteImage } = require('../../helpers/delete_image')
@@ -79,6 +81,7 @@ module.exports = {
       const { id } = req.params
       const result = await movieModel.geDataByCondition({ movie_id: id })
       if (result.length > 0) {
+        // client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,

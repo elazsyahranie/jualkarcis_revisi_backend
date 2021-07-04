@@ -1,7 +1,7 @@
 const express = require('express')
 const Route = express.Router()
 const uploads = require('../../middleware/uploads')
-// const authMiddleware = require('../../middleware/auth')
+const { authentication } = require('../../middleware/auth')
 
 const {
   createmovie,
@@ -13,10 +13,10 @@ const {
 } = require('./movie_controller')
 
 Route.post('/', uploads, createmovie)
-Route.get('/', getAllMovie)
-Route.get('/pagination', getAllMoviePagination)
-Route.get('/:id', getmovieDataById)
-Route.patch('/:id', uploads, updatemovieData)
-Route.delete('/:id', deletemovie)
+Route.get('/', authentication, getAllMovie)
+Route.get('/pagination', authentication, getAllMoviePagination)
+Route.get('/:id', authentication, getmovieDataById)
+Route.patch('/:id', authentication, uploads, updatemovieData)
+Route.delete('/:id', authentication, deletemovie)
 
 module.exports = Route
