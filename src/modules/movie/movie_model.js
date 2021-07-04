@@ -24,10 +24,10 @@ module.exports = {
       })
     })
   },
-  getDataCount: () => {
+  getDataCount: (search) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT COUNT(*) AS total FROM movie',
+        `SELECT COUNT(*) AS total FROM movie WHERE movie_name LIKE '%${search}%' OR movie_genre LIKE '%${search}%'`,
         (error, result) => {
           !error ? resolve(result[0].total) : reject(new Error(error))
         }
@@ -37,7 +37,7 @@ module.exports = {
   getAllDataPagination: (limit, offset, sort, search) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM movie WHERE movie_name LIKE '%${search}%' ORDER BY ${sort} LIMIT ? OFFSET ?`,
+        `SELECT * FROM movie WHERE movie_name LIKE '%${search}%' OR movie_genre LIKE '%${search}%' ORDER BY ${sort} LIMIT ? OFFSET ?`,
         [limit, offset],
         (error, result) => {
           console.log(error)

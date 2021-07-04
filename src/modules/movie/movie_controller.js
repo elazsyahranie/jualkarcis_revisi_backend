@@ -52,7 +52,7 @@ module.exports = {
       sort = sort ? sort : 'movie_id ASC'
       search = search ? search : ''
 
-      const totalData = await movieModel.getDataCount()
+      const totalData = await movieModel.getDataCount(search)
       const totalPage = Math.ceil(totalData / limit)
       const offset = limit - limit
       const pageInfo = {
