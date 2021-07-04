@@ -6,6 +6,7 @@ const uploads = require('../../middleware/uploads')
 const {
   createmovie,
   getAllMovie,
+  getAllMoviePagination,
   getmovieDataById,
   updatemovieData,
   deletemovie
@@ -13,6 +14,7 @@ const {
 
 Route.post('/', uploads, createmovie)
 Route.get('/', getAllMovie)
+Route.get('/pagination', getAllMoviePagination)
 Route.get('/:id', getmovieDataById)
 Route.patch('/:id', uploads, updatemovieData)
 Route.delete('/:id', deletemovie)

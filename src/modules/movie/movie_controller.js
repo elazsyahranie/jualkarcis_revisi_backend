@@ -43,6 +43,37 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
+  getAllMoviePagination: async (req, res) => {
+    try {
+      let { page, limit, sort, search } = req.query
+
+      page = page ? parseInt(page) : 1
+      limit = limit ? parseInt(limit) : 5
+      sort = sort ? sort : 'movie_id ASC'
+      search = search ? search : ''
+
+      const totalData = await movieModel.getDataCount()
+      const totalPage = Math.ceil(totalData / limit)
+      const offset = limit - limit
+      const pageInfo = {
+        page,
+        totalPage,
+        limit,
+        totalData
+      }
+
+      const result = await movieModel.getAllDataPagination(
+        limit,
+        offset,
+        sort,
+        search
+      )
+
+      return helper.response(res, 200, 'Success Get Data', result, pageInfo)
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
   getmovieDataById: async (req, res) => {
     try {
       const { id } = req.params
