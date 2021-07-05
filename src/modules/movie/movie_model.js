@@ -46,11 +46,10 @@ module.exports = {
       )
     })
   },
-  geDataByCondition: (condition) => {
+  geDataById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT * FROM movie WHERE ?',
-        condition,
+        `SELECT * FROM movie JOIN premiere ON movie.movie_id = premiere.movie_id WHERE movie.movie_id = ${id}`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }

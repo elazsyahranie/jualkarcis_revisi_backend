@@ -37,11 +37,7 @@ module.exports = {
     try {
       const result = await movieModel.getAllData()
       if (result.length > 0) {
-        client.setex(
-          'getmovieall',
-          3600,
-          JSON.stringify(result)
-        )
+        client.setex('getmovieall', 3600, JSON.stringify(result))
         return helper.response(res, 200, 'Success Get All Data movie', result)
       } else {
         return helper.response(res, 404, 'Data Not Found', null)
@@ -89,7 +85,7 @@ module.exports = {
   getmovieDataById: async (req, res) => {
     try {
       const { id } = req.params
-      const result = await movieModel.geDataByCondition({ movie_id: id })
+      const result = await movieModel.geDataById(id)
       if (result.length > 0) {
         client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(

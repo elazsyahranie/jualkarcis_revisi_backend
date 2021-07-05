@@ -4,7 +4,7 @@ const helper = require('../helpers/wrapper')
 
 module.exports = {
   getAllMovieByRedis: (req, res, next) => {
-    client.get(`getmovieall`, (error, result) => {
+    client.get('getmovieall', (error, result) => {
       if (!error && result !== null) {
         console.log('Data ada di dalam redis')
         return helper.response(
