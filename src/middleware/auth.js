@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 module.exports = {
   authentication: (req, res, next) => {
     let token = req.headers.authorization
-    console.log('I Am Testing Authentication!')
     if (token) {
       token = token.split(' ')[1]
       jwt.verify(token, process.env.PRIVATE_KEY, (error, result) => {
@@ -20,7 +19,6 @@ module.exports = {
             return helper.response(res, 403, 'Please verify your email first !')
           }
           next()
-          console.log('I Am Testing Authentication!')
         }
       })
     } else {

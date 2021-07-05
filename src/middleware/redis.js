@@ -1,17 +1,16 @@
 const redis = require('redis')
 const client = redis.createClient()
-const helper = require('../helpers')
+const helper = require('../helpers/wrapper')
 
 module.exports = {
-  getRecruiterByIdRedis: (req, res, next) => {
-    const { id } = req.params
-    client.get(`getrecruiter:${id}`, (error, result) => {
+  getAllMovieByRedis: (req, res, next) => {
+    client.get(`getmovieall`, (error, result) => {
       if (!error && result !== null) {
         console.log('Data ada di dalam redis')
         return helper.response(
           res,
           200,
-          'Success:get data by id',
+          'Success: Get All Movie!',
           JSON.parse(result)
         )
       } else {
@@ -19,6 +18,26 @@ module.exports = {
         next()
       }
     })
+  },
+
+  getAllMovieByPaginationAndRedis: (req, res, next) => {
+    client.get(
+      `getmovieallbypagination:${JSON.stringify(req.query)}`,
+      (error, result) => {
+        if (!error && result !== null) {
+          console.log('Data ada di dalam redis')
+          return helper.response(
+            res,
+            200,
+            'Success: Get All Movie!',
+            JSON.parse(result)
+          )
+        } else {
+          console.log('Data tidak ada di dalam redis')
+          next()
+        }
+      }
+    )
   },
 
   getMovieByIdRedis: (req, res, next) => {
@@ -38,26 +57,8 @@ module.exports = {
           next()
         }
       })
-    } else {
-      client.get(`getworker:${JSON.stringify(req.query)}`, (error, result) => {
-        if (!error && result != null) {
-          console.log('data ada dalam redis')
-          const newResult = JSON.parse(result)
-          return helper.response(
-            res,
-            200,
-            'Succes get worker All (redis)',
-            newResult.result,
-            newResult.pageInfo
-          )
-        } else {
-          console.log('data tidak ada dalam redis')
-          next()
-        }
-      })
     }
   },
-
   clearDataWorkerRedis: (req, res, next) => {
     client.keys('getworker*', (_error, result) => {
       console.log('isi key dalam redis', result)

@@ -37,6 +37,11 @@ module.exports = {
     try {
       const result = await movieModel.getAllData()
       if (result.length > 0) {
+        client.setex(
+          'getmovieall',
+          3600,
+          JSON.stringify(result)
+        )
         return helper.response(res, 200, 'Success Get All Data movie', result)
       } else {
         return helper.response(res, 404, 'Data Not Found', null)
@@ -70,7 +75,12 @@ module.exports = {
         sort,
         search
       )
-
+      console.log(req.query)
+      client.setex(
+        `getmovieallbypagination:${JSON.stringify(req.query)}`,
+        3600,
+        JSON.stringify({ result, pageInfo })
+      )
       return helper.response(res, 200, 'Success Get Data', result, pageInfo)
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
@@ -81,7 +91,7 @@ module.exports = {
       const { id } = req.params
       const result = await movieModel.geDataByCondition({ movie_id: id })
       if (result.length > 0) {
-        // client.set(`getmovie:${id}`, JSON.stringify(result))
+        client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,
