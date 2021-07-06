@@ -1,9 +1,9 @@
 const connection = require('../../config/mysql')
 
 module.exports = {
-  register: (data) => {
+  insertpremiere: (data) => {
     return new Promise((resolve, reject) => {
-      connection.query('INSERT INTO user SET ?', data, (error, result) => {
+      connection.query('INSERT INTO premiere SET ?', data, (error, result) => {
         if (!error) {
           const newResult = {
             id: result.insertId,
@@ -20,7 +20,7 @@ module.exports = {
   updateData: (setData, id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'UPDATE user SET ? WHERE ?',
+        'UPDATE premiere SET ? WHERE ?',
         [setData, id],
         (error, result) => {
           if (!error) {

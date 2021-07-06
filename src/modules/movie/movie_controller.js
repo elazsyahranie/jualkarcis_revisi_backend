@@ -154,17 +154,17 @@ module.exports = {
   deletemovie: async (req, res) => {
     try {
       const { id } = req.params
-      const checkmovieData = await movieModel.geDataByCondition({
-        movie_id: id
-      })
+      const checkmovieData = await movieModel.geDataById(id)
       if (checkmovieData.length > 0) {
-        deleteImage(`src/uploads/${checkmovieData[0].movie_image}`)
-        const result = await movieModel.deleteData(id)
+        // deleteImage(`src/uploads/${checkmovieData[0].movie_image}`)
+        const result = await movieModel.deleteMovie(id)
+        const result2 = await movieModel.deleteMovieAlsoPremiere(id)
         return helper.response(
           res,
           200,
           `Success Delete movie Data By id: ${id}`,
-          result
+          result,
+          result2
         )
       } else {
         return helper.response(
@@ -175,6 +175,7 @@ module.exports = {
         )
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   }

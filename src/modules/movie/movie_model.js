@@ -75,10 +75,21 @@ module.exports = {
       )
     })
   },
-  deleteData: (id) => {
+  deleteMovie: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
         'DELETE FROM movie WHERE movie_id = ?',
+        id,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  deleteMovieAlsoPremiere: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'DELETE FROM premiere WHERE movie_id = ?',
         id,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
