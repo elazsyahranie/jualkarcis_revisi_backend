@@ -33,7 +33,32 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
-
+  getpremiereById: async (req, res) => {
+    try {
+      const { id } = req.params
+      const result = await premiereModel.getDataById(id)
+      if (result.length > 0) {
+        // client.set(`getmovie:${id}`, JSON.stringify(result))
+        return helper.response(
+          res,
+          200,
+          `Success Get Premiere Data By Id: ${id}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `Data Premiere Data By Id: ${id} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      console.log('This is REQ QUERY - ' + req.query)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
   updatePremiere: async (req, res) => {
     try {
       const { id } = req.params

@@ -46,10 +46,22 @@ module.exports = {
       )
     })
   },
-  geDataById: (id) => {
+  getDataById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM movie JOIN premiere ON movie.movie_id = premiere.movie_id WHERE movie.movie_id = ${id}`,
+        'SELECT * FROM movie WHERE movie_id = ?',
+        id,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getPremiereDataById: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM premiere WHERE movie_id = ?',
+        id,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }

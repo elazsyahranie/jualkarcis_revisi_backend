@@ -37,6 +37,18 @@ module.exports = {
     })
   },
 
+  userVerified: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'UDPATE user SET user_verified = 1 WHERE ?',
+        id,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+
   getDataByCondition: (condition) => {
     return new Promise((resolve, reject) => {
       connection.query(

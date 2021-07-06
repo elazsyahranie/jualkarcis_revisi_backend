@@ -16,7 +16,17 @@ module.exports = {
       })
     })
   },
-
+  getDataById: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM premiere WHERE premiere_id = 1',
+        id,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
   updateData: (setData, id) => {
     return new Promise((resolve, reject) => {
       connection.query(

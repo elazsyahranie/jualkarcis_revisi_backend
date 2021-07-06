@@ -4,11 +4,13 @@ const Route = express.Router()
 
 const {
   newpremiere,
+  getpremiereById,
   updatePremiere,
   deletePremiere
-} = require('./auth_controller')
+} = require('./premiere_controller')
 
 Route.post('/newpremiere', newpremiere)
+Route.get('/:id', getpremiereById)
 Route.patch('/:id', updatePremiere)
 Route.delete('/:id', deletePremiere)
 

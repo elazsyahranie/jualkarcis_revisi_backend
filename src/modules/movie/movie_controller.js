@@ -85,20 +85,30 @@ module.exports = {
   getmovieDataById: async (req, res) => {
     try {
       const { id } = req.params
-      const result = await movieModel.geDataById(id)
-      if (result.length > 0) {
+      const result = await movieModel.getDataById(id)
+      const resultPremiere = await movieModel.getPremiereDataById(id)
+      if (result.length > 0 && resultPremiere.length > 0) {
         client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,
           `Success Get movie Data By Id: ${id}`,
-          result
+          result,
+          resultPremiere
         )
-      } else {
+      } else if (result.length > 0 && resultPremiere.length <= 0) {
+        return helper.response(
+          res,
+          200,
+          `Success Get movie Data By Id: ${id}, but not Premiere Data`,
+          result,
+          null
+        )
+      } else if (result.length <= 0 && resultPremiere <= 0) {
         return helper.response(
           res,
           404,
-          `Data movie Data By Id: ${id} Not Found`,
+          'Both movie data and premiere not found!',
           null
         )
       }

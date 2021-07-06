@@ -4,6 +4,7 @@ const authModel = require('./auth_model')
 const { sendMail } = require('../../helpers/send_email')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+// const nodemailer = require('nodemailer')
 
 module.exports = {
   register: async (req, res) => {
@@ -26,11 +27,16 @@ module.exports = {
       if (checkEmailUser.length === 0) {
         const result = await authModel.register(data)
         delete result.user_password
-        console.log(result)
-        // const url = `http://localhost:3005/backend5/api/v1/auth/change-data/${result.id}`
-        // sendMail('Please activate your account', url, userEmail)
 
-        return helper.response(res, 200, 'Succes register User !', result)
+        const url = `http://localhost:3005/backend/api/v1/auth/verify-user/${result.id}`
+        sendMail('Please activate your account', url, userEmail)
+
+        return helper.response(
+          res,
+          200,
+          'Succes register User Please Check your Email to Activate your Account !',
+          result
+        )
       } else {
         return helper.response(res, 400, 'Email has been registered')
       }
@@ -117,6 +123,51 @@ module.exports = {
         )
       }
     } catch (error) {
+      console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+
+  changeUserVerification: async (req, res) => {
+    try {
+      let token = req.params.token
+      let userId = ''
+      let setData = {}
+      // console.log(token)
+      if (/^\d+$/.test(token)) {
+        userId = token
+        setData = { user_verified: 1 }
+      } else {
+        jwt.verify(token, process.env.PRIVATE_KEY, (error, result) => {
+          if (
+            (error && error.name === 'JsonWebTokenError') ||
+            (error && error.name === 'TokenExpiredError')
+          ) {
+            return helper.response(res, 403, error.message)
+          } else {
+            // console.log('DECODE token', result)
+            token = result
+          }
+        })
+        userId = token.userId
+        setData = token.setData
+      }
+
+      if (userId && setData) {
+        // console.log('Update', setData)
+        const result = await authModel.updateData(setData, userId)
+        return helper.response(
+          res,
+          200,
+          'succes update data',
+          Object.keys(result)
+        )
+      } else {
+        console.log('The Bad Request was from the Email')
+        return helper.response(res, 400, 'Bad Request', null)
+      }
+    } catch (error) {
+      console.log('Nope. The Bad Request was from the request itself')
       console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
