@@ -1,35 +1,70 @@
 const helper = require('../../helpers/wrapper')
+// const movieModel = require('../movie/movie_model')
 const premiereModel = require('./premiere_model')
 require('dotenv').config()
 
 module.exports = {
   newpremiere: async (req, res) => {
     try {
-      const { premiereName, premierePrice } = req.body
+      const { movie, location, premiereName, premierePrice } = req.body
 
       const data = {
+        movie_id: movie,
+        location_id: location,
         premiere_name: premiereName,
         premiere_price: premierePrice
       }
 
-      const checkPremiereName = await premiereModel.getDataByCondition({
+      const checkPremiereName = await premiereModel.getPremiereByItsName({
         premiere_name: premiereName
+      })
+
+      const checkLocationId = await premiereModel.getLocationByItsId({
+        location_id: location
       })
 
       console.log(checkPremiereName)
 
-      if (checkPremiereName.length === 0) {
+      if (checkLocationId > 0 && checkPremiereName > 0) {
         const result = await premiereModel.insertpremiere(data)
-        console.log(result)
-        // const url = `http://localhost:3005/backend5/api/v1/auth/change-data/${result.id}`
-        // sendMail('Please activate your account', url, userEmail)
-
         return helper.response(res, 200, 'Succes insert new premiere !', result)
-      } else {
-        return helper.response(res, 400, 'Premiere aleardy exists!')
+      } else if (checkLocationId > 0 && checkPremiereName === 0) {
+        return helper.response(
+          res,
+          400,
+          'Premiere name invalid! No theater name available!'
+        )
+      } else if (checkLocationId === 0 && checkPremiereName > 0) {
+        return helper.response(
+          res,
+          400,
+          'Premiere name is valid but no location available!',
+          result,
+          null
+        )
+      } else if (checkLocationId === 0 && checkPremiereName === 0) {
+        return helper.response(
+          res,
+          400,
+          'Premiere name and location are unavaliable!'
+        )
       }
     } catch (error) {
       console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  getMovieDataId: async (req, res) => {
+    try {
+      const { movieName } = req.body
+      const result = await premiereModel.getMovieDataById(movieName)
+      console.log(result[0])
+      if (result.length > 0) {
+        return helper.response(res, 200, 'Success Get movie Data!', result)
+      } else {
+        return helper.response(res, 404, 'Movie data not found!', null)
+      }
+    } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },

@@ -23,7 +23,7 @@ Route.get('/', authentication, getAllMovieByRedis, getAllMovie)
 Route.get(
   '/pagination',
   authentication,
-  getAllMovieByPaginationAndRedis,
+  // getAllMovieByPaginationAndRedis,
   getAllMoviePagination
 )
 Route.get('/:id', authentication, getMovieByIdRedis, getmovieDataById)

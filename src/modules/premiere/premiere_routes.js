@@ -4,12 +4,14 @@ const Route = express.Router()
 
 const {
   newpremiere,
+  getMovieDataId,
   getpremiereById,
   updatePremiere,
   deletePremiere
 } = require('./premiere_controller')
 
-Route.post('/newpremiere', newpremiere)
+Route.post('/premiere', newpremiere)
+Route.get('/premiere_movie/:id', getMovieDataId)
 Route.get('/:id', getpremiereById)
 Route.patch('/:id', updatePremiere)
 Route.delete('/:id', deletePremiere)

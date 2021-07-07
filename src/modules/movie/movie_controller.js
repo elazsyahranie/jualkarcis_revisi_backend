@@ -72,11 +72,11 @@ module.exports = {
         search
       )
       console.log(req.query)
-      client.setex(
-        `getmovieallbypagination:${JSON.stringify(req.query)}`,
-        3600,
-        JSON.stringify({ result, pageInfo })
-      )
+      // client.setex(
+      //   `getmovieallbypagination:${JSON.stringify(req.query)}`,
+      //   3600,
+      //   JSON.stringify({ result, pageInfo })
+      // )
       return helper.response(res, 200, 'Success Get Data', result, pageInfo)
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
@@ -87,6 +87,7 @@ module.exports = {
       const { id } = req.params
       const result = await movieModel.getDataById(id)
       const resultPremiere = await movieModel.getPremiereDataById(id)
+      console.log(result)
       if (result.length > 0 && resultPremiere.length > 0) {
         client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
@@ -127,9 +128,7 @@ module.exports = {
         movieCasts,
         movieSynopsis
       } = req.body
-      const checkmovieData = await movieModel.geDataByCondition({
-        movie_id: id
-      })
+      const checkmovieData = await movieModel.getDataById(id)
       const setData = {
         movie_name: movieName,
         movie_genre: movieGenre,
@@ -158,13 +157,14 @@ module.exports = {
         )
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
   deletemovie: async (req, res) => {
     try {
       const { id } = req.params
-      const checkmovieData = await movieModel.geDataById(id)
+      const checkmovieData = await movieModel.getDataById(id)
       if (checkmovieData.length > 0) {
         // deleteImage(`src/uploads/${checkmovieData[0].movie_image}`)
         const result = await movieModel.deleteMovie(id)

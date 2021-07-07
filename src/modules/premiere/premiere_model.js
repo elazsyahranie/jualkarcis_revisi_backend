@@ -19,8 +19,40 @@ module.exports = {
   getDataById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT * FROM premiere WHERE premiere_id = 1',
-        id,
+        `SELECT * FROM premiere JOIN movie ON premiere.movie_id = movie.movie_id WHERE premiere.movie_id = ${id}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getMovieDataById: (movieName) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM movie WHERE movie_name = ?',
+        movieName,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getPremiereByItsName: (condition) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM premiere WHERE ?',
+        condition,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getLocationByItsId: (condition) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM location WHERE ?',
+        condition,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }
@@ -46,7 +78,6 @@ module.exports = {
       )
     })
   },
-
   getDataByCondition: (condition) => {
     return new Promise((resolve, reject) => {
       connection.query(
