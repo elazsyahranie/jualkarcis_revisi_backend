@@ -91,24 +91,27 @@ module.exports = {
         premiere_updated_at: new Date(Date.now())
       }
 
-      const checkMovieData = await premiereModel.getMovieDataById(movie)
+      const checkMovieData = await premiereModel.getMovieDataByItsName(movie)
 
       const checkLocationId = await premiereModel.getLocationByItsId(location)
 
       console.log(checkMovieData)
 
       console.log(checkLocationId)
-      // if (checkMovieData.length <= 0) {
-      //   console.log('Movie name not avaliable!')
-      //   // return helper.response(res, 404, 'Movie name don`t exists!')
-      // }
-      // if (checkLocationId.length <= 0) {
-      //   console.log('Location not available!')
-      //   // return helper.response(res, 400, 'Location not available')
-      // }
+      if (checkMovieData.length <= 0) {
+        return helper.response(res, 404, 'Movie name don`t exists!')
+      }
+      if (checkLocationId.length <= 0) {
+        return helper.response(res, 400, 'Location not available')
+      }
 
-      console.log('Update data succesful!')
-
+      const result = await premiereModel.updateData(setData, id)
+      return helper.response(
+        res,
+        200,
+        'Premiere data has been updated!',
+        result
+      )
       // if (checkPremiereData.length > 0) {
       //   const result = await premiereModel.updateData(setData, id)
       //   return helper.response(
