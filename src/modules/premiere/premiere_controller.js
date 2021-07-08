@@ -112,22 +112,6 @@ module.exports = {
         'Premiere data has been updated!',
         result
       )
-      // if (checkPremiereData.length > 0) {
-      //   const result = await premiereModel.updateData(setData, id)
-      //   return helper.response(
-      //     res,
-      //     200,
-      //     `Success Update Premiere Data By Id: ${id}`,
-      //     result
-      //   )
-      // } else {
-      //   return helper.response(
-      //     res,
-      //     404,
-      //     `User Data By Id ${id} Not Found`,
-      //     null
-      //   )
-      // }
     } catch (error) {
       console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
