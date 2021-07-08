@@ -91,27 +91,23 @@ module.exports = {
   updateUser: async (req, res) => {
     try {
       const { id } = req.params
-      const { userName, userEmail, userPassword } = req.body
-
-      const salt = bcrypt.genSaltSync(10)
-      const encryptPassword = bcrypt.hashSync(userPassword, salt)
-
-      console.log(userPassword)
-
-      const setData = {
-        user_name: userName,
-        user_email: userEmail,
-        user_profile_picture: req.file ? req.file.filename : '',
-        user_password: encryptPassword,
-        user_updated_at: new Date(Date.now())
-      }
+      const { userName, userEmail } = req.body
 
       const checkUserData = await authModel.getDataByCondition({
         user_id: id
       })
 
-      console.log(checkUserData)
-      console.log(setData)
+      const setData = {
+        user_name: userName,
+        user_email: userEmail,
+        user_profile_picture: req.file ? req.file.filename : '',
+        user_updated_at: new Date(Date.now())
+      }
+
+      // const originalHashedPassword = checkUserData[0].user_password
+
+      // console.log(originalHashedPassword)
+      // console.log(setData)
 
       if (checkUserData.length > 0) {
         const result = await authModel.updateData(setData, {

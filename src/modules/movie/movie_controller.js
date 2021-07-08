@@ -153,7 +153,7 @@ module.exports = {
         return helper.response(
           res,
           404,
-          `movie Data By Id ${id} Not Found`,
+          `Movie Data By Id ${id} Not Found`,
           null
         )
       }
