@@ -26,7 +26,18 @@ module.exports = {
       )
     })
   },
-  getMovieDataById: (movieName) => {
+  getMovieDataById: (movieId) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM movie WHERE movie_id = ?',
+        movieId,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getMovieDataByItsName: (movieName) => {
     return new Promise((resolve, reject) => {
       connection.query(
         'SELECT * FROM movie WHERE movie_name = ?',
@@ -37,22 +48,22 @@ module.exports = {
       )
     })
   },
-  getPremiereByItsName: (condition) => {
+  getPremiereByItsName: (premiereName) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT * FROM premiere WHERE ?',
-        condition,
+        'SELECT * FROM premiere WHERE premiere_name = ?',
+        premiereName,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }
       )
     })
   },
-  getLocationByItsId: (condition) => {
+  getLocationByItsId: (location) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT * FROM location WHERE ?',
-        condition,
+        'SELECT * FROM location WHERE location_id = ?',
+        location,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }

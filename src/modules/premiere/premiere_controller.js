@@ -15,40 +15,25 @@ module.exports = {
         premiere_price: premierePrice
       }
 
-      const checkPremiereName = await premiereModel.getPremiereByItsName({
-        premiere_name: premiereName
-      })
+      // Bikin proses get Data sebelum if else
 
-      const checkLocationId = await premiereModel.getLocationByItsId({
-        location_id: location
-      })
+      const checkPremiere = await premiereModel.getPremiereByItsName(
+        premiereName
+      )
 
-      console.log(checkPremiereName)
+      const checkLocationId = await premiereModel.getLocationByItsId(location)
 
-      if (checkLocationId > 0 && checkPremiereName > 0) {
-        const result = await premiereModel.insertpremiere(data)
-        return helper.response(res, 200, 'Succes insert new premiere !', result)
-      } else if (checkLocationId > 0 && checkPremiereName === 0) {
-        return helper.response(
-          res,
-          400,
-          'Premiere name invalid! No theater name available!'
-        )
-      } else if (checkLocationId === 0 && checkPremiereName > 0) {
-        return helper.response(
-          res,
-          400,
-          'Premiere name is valid but no location available!',
-          result,
-          null
-        )
-      } else if (checkLocationId === 0 && checkPremiereName === 0) {
-        return helper.response(
-          res,
-          400,
-          'Premiere name and location are unavaliable!'
-        )
+      console.log(checkPremiere)
+
+      if (checkPremiere.length <= 0) {
+        return helper.response(res, 404, 'Premiere name is not valid')
       }
+      if (checkLocationId.length <= 0) {
+        return helper.response(res, 400, 'Location not available')
+      }
+
+      const result = await premiereModel.insertpremiere(data)
+      return helper.response(res, 200, 'The schedule have been posted!', result)
     } catch (error) {
       console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
@@ -97,30 +82,49 @@ module.exports = {
   updatePremiere: async (req, res) => {
     try {
       const { id } = req.params
-      const { movie, location } = req.body
-      const checkPremiereData = await premiereModel.getDataByCondition(id)
-
+      const { location, movie, premiereName, premierePrice } = req.body
       const setData = {
-        movie_name: movie,
+        movie_id: movie,
         location_id: location,
+        premiere_name: premiereName,
+        premiere_price: premierePrice,
         premiere_updated_at: new Date(Date.now())
       }
-      if (checkPremiereData.length > 0) {
-        const result = await premiereModel.updateData(setData, id)
-        return helper.response(
-          res,
-          200,
-          `Success Update Premiere Data By Id: ${id}`,
-          result
-        )
-      } else {
-        return helper.response(
-          res,
-          404,
-          `User Data By Id ${id} Not Found`,
-          null
-        )
-      }
+
+      const checkMovieData = await premiereModel.getMovieDataById(movie)
+
+      const checkLocationId = await premiereModel.getLocationByItsId(location)
+
+      console.log(checkMovieData)
+
+      console.log(checkLocationId)
+      // if (checkMovieData.length <= 0) {
+      //   console.log('Movie name not avaliable!')
+      //   // return helper.response(res, 404, 'Movie name don`t exists!')
+      // }
+      // if (checkLocationId.length <= 0) {
+      //   console.log('Location not available!')
+      //   // return helper.response(res, 400, 'Location not available')
+      // }
+
+      console.log('Update data succesful!')
+
+      // if (checkPremiereData.length > 0) {
+      //   const result = await premiereModel.updateData(setData, id)
+      //   return helper.response(
+      //     res,
+      //     200,
+      //     `Success Update Premiere Data By Id: ${id}`,
+      //     result
+      //   )
+      // } else {
+      //   return helper.response(
+      //     res,
+      //     404,
+      //     `User Data By Id ${id} Not Found`,
+      //     null
+      //   )
+      // }
     } catch (error) {
       console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
