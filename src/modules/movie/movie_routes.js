@@ -5,7 +5,6 @@ const { authentication, isAdmin } = require('../../middleware/auth')
 
 const {
   getMovieByIdRedis,
-  getAllMovieByPaginationAndRedis,
   getAllMovieByRedis
 } = require('../../middleware/redis')
 
