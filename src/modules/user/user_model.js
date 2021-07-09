@@ -1,7 +1,7 @@
 const connection = require('../../config/mysql')
 
 module.exports = {
-  geDataByCondition: (condition) => {
+  getDataByCondition: (condition) => {
     return new Promise((resolve, reject) => {
       connection.query(
         'SELECT * FROM user WHERE ?',

@@ -1,7 +1,7 @@
 const express = require('express')
 const Route = express.Router()
 const uploads = require('../../middleware/uploads')
-const { authentication } = require('../../middleware/auth')
+const { authentication, isAdmin } = require('../../middleware/auth')
 
 const {
   getMovieByIdRedis,
@@ -15,7 +15,8 @@ const {
   getAllMoviePagination,
   getmovieDataById,
   updatemovieData,
-  deletemovie
+  deletemovie,
+  deleteMovieImage
 } = require('./movie_controller')
 
 Route.post('/', uploads, createmovie)
@@ -27,7 +28,13 @@ Route.get(
   getAllMoviePagination
 )
 Route.get('/:id', authentication, getMovieByIdRedis, getmovieDataById)
-Route.patch('/:id', authentication, uploads, updatemovieData)
-Route.delete('/:id', authentication, deletemovie)
+Route.patch('/:id', authentication, isAdmin, uploads, updatemovieData)
+Route.delete('/:id', authentication, isAdmin, deletemovie)
+Route.delete(
+  '/delete-movie-image/:id',
+  authentication,
+  isAdmin,
+  deleteMovieImage
+)
 
 module.exports = Route

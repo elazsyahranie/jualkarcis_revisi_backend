@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 const redis = require('redis')
 const client = redis.createClient()
 const helper = require('../../helpers/wrapper')
@@ -182,6 +183,43 @@ module.exports = {
           res,
           404,
           `movie Data By Id ${id} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  deleteMovieImage: async (req, res) => {
+    try {
+      const { id } = req.params
+      const checkMovieData = await movieModel.getDataByCondition({
+        movie_id: id
+      })
+
+      console.log(`This is it! ${checkMovieData}`)
+
+      const setDeleteImage = {
+        movie_image: '',
+        movie_updated_at: new Date(Date.now())
+      }
+      if (checkMovieData.length > 0) {
+        deleteImage(`src/uploads/${checkMovieData[0].movie_image}`)
+        const result = await movieModel.updateData(setDeleteImage, {
+          movie_id: id
+        })
+        return helper.response(
+          res,
+          200,
+          `Sucess Delete Image of Movie Data By Id: ${id}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `Movie Data By Id ${id} Not Found`,
           null
         )
       }

@@ -4,6 +4,7 @@ const authModel = require('./auth_model')
 const { sendMail } = require('../../helpers/send_email')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const { deleteImage } = require('../../helpers/delete_image')
 // const nodemailer = require('nodemailer')
 
 module.exports = {
@@ -244,6 +245,40 @@ module.exports = {
           res,
           404,
           `movie Data By Id ${id} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  deleteUserImage: async (req, res) => {
+    try {
+      const id = req.params.id
+      const checkUserData = await authModel.getDataByCondition({ user_id: id })
+      const setDeleteImage = {
+        user_profile_picture: '',
+        user_updated_at: new Date(Date.now())
+      }
+      if (checkUserData.length > 0) {
+        deleteImage(
+          `src/uploads/jualkarcis_uploads/${checkUserData[0].user_profile_picture}`
+        )
+        const result = await authModel.updateData(setDeleteImage, {
+          user_id: id
+        })
+        return helper.response(
+          res,
+          200,
+          `Sucess Delete User Image by: ${id}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `User Data By Id ${id} Not Found`,
           null
         )
       }
