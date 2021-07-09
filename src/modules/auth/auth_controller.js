@@ -1,3 +1,5 @@
+const redis = require('redis')
+const client = redis.createClient()
 const helper = require('../../helpers/wrapper')
 const bcrypt = require('bcrypt')
 const authModel = require('./auth_model')
@@ -83,6 +85,20 @@ module.exports = {
         }
       } else {
         return helper.response(res, 404, 'Email not Registerd')
+      }
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+
+  getAllUsers: async (req, res) => {
+    try {
+      const result = await authModel.getAllData()
+      if (result.length > 0) {
+        client.setex('getuserall', 3600, JSON.stringify(result))
+        return helper.response(res, 200, 'Success Get All Data movie', result)
+      } else {
+        return helper.response(res, 404, 'Data Not Found', null)
       }
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)

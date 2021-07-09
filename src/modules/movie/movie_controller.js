@@ -99,6 +99,7 @@ module.exports = {
           resultPremiere
         )
       } else if (result.length > 0 && resultPremiere.length <= 0) {
+        client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,
@@ -107,6 +108,7 @@ module.exports = {
           null
         )
       } else if (result.length <= 0 && resultPremiere <= 0) {
+        client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           404,

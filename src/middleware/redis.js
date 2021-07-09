@@ -49,7 +49,7 @@ module.exports = {
           return helper.response(
             res,
             200,
-            `Succes Get Worker by Id ${id} (Redis)`,
+            `Succes Get Movie by Id ${id} (Redis)`,
             JSON.parse(result)
           )
         } else {
@@ -98,6 +98,24 @@ module.exports = {
         })
       }
       next()
+    })
+  },
+
+  // USER //
+  getAllUserByRedis: (req, res, next) => {
+    client.get('getuserall', (error, result) => {
+      if (!error && result !== null) {
+        console.log('Data ada di dalam redis')
+        return helper.response(
+          res,
+          200,
+          'Success: Get All Movie!',
+          JSON.parse(result)
+        )
+      } else {
+        console.log('Data tidak ada di dalam redis')
+        next()
+      }
     })
   }
 }

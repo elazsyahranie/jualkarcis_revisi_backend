@@ -4,7 +4,7 @@ const path = require('path')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'src/uploads/jualkarcis_uploads')
+    cb(null, 'src/uploads')
   },
   filename: function (req, file, cb) {
     // console.log(file)
@@ -25,7 +25,7 @@ const fileFilter = (req, file, callback) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 600 * 600 }
+  limits: { fileSize: 1000 * 1000 }
 }).single('image')
 
 const uploadFilter = (req, res, next) => {

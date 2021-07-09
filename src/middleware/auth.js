@@ -28,7 +28,7 @@ module.exports = {
   isAdmin: (req, res, next) => {
     console.log('Middleware isAdmin running !')
     console.log(req.decodeToken)
-    if (req.decodeToken.user_role === 'admin') {
+    if (req.decodeToken.user_role === 'Admin') {
       next()
     } else {
       return helper.response(res, 403, 'sorry you are not admin !')
