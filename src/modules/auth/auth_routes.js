@@ -10,6 +10,7 @@ const {
   login,
   register,
   getAllUsers,
+  getUserById,
   updateUser,
   changeUserVerification,
   deleteUser,
@@ -20,6 +21,7 @@ Route.post('/login', login)
 Route.post('/register', register)
 Route.patch('/:id', authentication, uploads, updateUser)
 Route.get('/', getAllUserByRedis, getAllUsers)
+Route.get('/:id', getUserById)
 Route.get('/verify-user/:token', changeUserVerification)
 Route.delete('/:id', authentication, deleteUser)
 Route.delete('/delete-image/:id', authentication, deleteUserImage)

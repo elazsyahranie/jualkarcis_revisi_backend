@@ -105,6 +105,26 @@ module.exports = {
     }
   },
 
+  getUserById: async (req, res) => {
+    const { id } = req.params
+    try {
+      const result = await authModel.getUserDataById(id)
+      if (result.length > 0) {
+        client.setex('getuserall', 3600, JSON.stringify(result))
+        return helper.response(
+          res,
+          200,
+          `Success Get User Data by Id ${id}`,
+          result
+        )
+      } else {
+        return helper.response(res, 404, 'Data Not Found', null)
+      }
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+
   updateUser: async (req, res) => {
     try {
       const { id } = req.params

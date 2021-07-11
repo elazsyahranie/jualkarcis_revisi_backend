@@ -26,6 +26,19 @@ module.exports = {
     })
   },
 
+  getUserDataById: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM user WHERE user_id = ?',
+        id,
+        (error, result) => {
+          console.log(error)
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+
   updateData: (setData, id) => {
     return new Promise((resolve, reject) => {
       connection.query(
