@@ -24,8 +24,8 @@ Need tickets but got no time? Worry not, here you can buy ticket, and find new m
 4. Turn on Web Server and MySQL can using Third-party tool like xampp, etc.
 5. Create a database with the name #nama_database, and Import file sql to **phpmyadmin**
 6. Open Postman desktop application or Chrome web app extension that has installed before
-7. Choose HTTP Method and enter request url.(ex. localhost:3000/)
-8. You can see all the end point [here](https://www.getpostman.com/collections/35d7ff9c2e7a5ae2c31e)
+7. Choose HTTP Method and enter request url.(ex. localhost:3005/)
+8. You can see all the end point [here](https://documenter.getpostman.com/view/14953068/Tzm6mG1h)
 
 ## Set up .env file
 
@@ -35,7 +35,7 @@ Open .env file on your favorite code editor, and copy paste this code below :
 DB_HOST=localhost // Database host
 DB_USER=root // Database username
 DB_PASS= // Database password
-DB_NAME=coffee_express_app // Database name
+DB_NAME=revisi_jualkarcis // Database name
 PORT=3005 // port
 SMTP_EMAIL= // your email
 SMTP_PASSWORD= // your email password
