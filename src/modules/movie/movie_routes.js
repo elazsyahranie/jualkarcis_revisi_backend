@@ -19,7 +19,7 @@ const {
 } = require('./movie_controller')
 
 Route.post('/', uploads, createmovie)
-Route.get('/', getAllMovieByRedis, getAllMovie)
+Route.get('/', authentication, getAllMovieByRedis, getAllMovie)
 Route.get(
   '/pagination',
   authentication,
