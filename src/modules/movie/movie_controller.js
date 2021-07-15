@@ -89,9 +89,14 @@ module.exports = {
       const { id } = req.params
       const result = await movieModel.getDataById(id)
       const resultPremiere = await movieModel.getPremiereDataById(id)
-      console.log(result)
+      // const premiereStringified = JSON.stringify(resultPremiere)
+      // const premiereReParsed = JSON.parse(premiereStringified)
+      // console.log(premiereStringified)
+      // console.log(premiereReParsed)
+      // console.log(result)
       if (result.length > 0 && resultPremiere.length > 0) {
         client.set(`getmovie:${id}`, JSON.stringify(result))
+        client.set(`getpremiereofmovie:${id}`, JSON.stringify(resultPremiere))
         return helper.response(
           res,
           200,
@@ -118,6 +123,7 @@ module.exports = {
         )
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },

@@ -59,6 +59,28 @@ module.exports = {
       })
     }
   },
+
+  getPremiereofMovieByIdRedis: (req, res, next) => {
+    const { id } = req.params
+    if (id) {
+      client.get(`getpremiereofmovie:${id}`, (error, resultPremiere) => {
+        console.log(resultPremiere)
+        if (!error && resultPremiere != null) {
+          console.log('data ada di dalam redis')
+          return helper.response(
+            res,
+            200,
+            `Succes Get Movie by Id ${id} (Redis)`,
+            JSON.parse(resultPremiere)
+          )
+        } else {
+          console.log('data tidak ada dalam redis')
+          next()
+        }
+      })
+    }
+  },
+
   clearDataWorkerRedis: (req, res, next) => {
     client.keys('getworker*', (_error, result) => {
       console.log('isi key dalam redis', result)

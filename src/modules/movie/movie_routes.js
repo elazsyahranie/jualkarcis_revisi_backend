@@ -5,6 +5,7 @@ const { authentication, isAdmin } = require('../../middleware/auth')
 
 const {
   getMovieByIdRedis,
+  getPremiereofMovieByIdRedis,
   getAllMovieByRedis
 } = require('../../middleware/redis')
 
@@ -26,7 +27,13 @@ Route.get(
   // getAllMovieByPaginationAndRedis,
   getAllMoviePagination
 )
-Route.get('/:id', authentication, getMovieByIdRedis, getmovieDataById)
+Route.get(
+  '/:id',
+  authentication,
+  // getMovieByIdRedis,
+  // getPremiereofMovieByIdRedis,
+  getmovieDataById
+)
 Route.patch('/:id', authentication, isAdmin, uploads, updatemovieData)
 Route.delete('/:id', authentication, isAdmin, deletemovie)
 Route.delete(
