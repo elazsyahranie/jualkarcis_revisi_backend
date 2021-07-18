@@ -170,6 +170,50 @@ module.exports = {
     }
   },
 
+  updateUserImage: async (req, res) => {
+    try {
+      const { id } = req.params
+
+      const checkUserData = await authModel.getDataByCondition({
+        user_id: id
+      })
+
+      const setData = {
+        user_profile_picture: req.file ? req.file.filename : '',
+        user_updated_at: new Date(Date.now())
+      }
+
+      console.log(setData)
+
+      // const originalHashedPassword = checkUserData[0].user_password
+
+      // console.log(originalHashedPassword)
+      // console.log(setData)
+
+      if (checkUserData.length > 0) {
+        const result = await authModel.updateData(setData, {
+          user_id: id
+        })
+        return helper.response(
+          res,
+          200,
+          `Success Update User Data By Id: ${id}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `User Data By Id ${id} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+
   changeUserVerification: async (req, res) => {
     try {
       let token = req.params.token
