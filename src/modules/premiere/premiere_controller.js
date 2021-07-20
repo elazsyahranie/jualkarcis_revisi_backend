@@ -8,7 +8,7 @@ module.exports = {
     try {
       const { movie, location, premiereName, premierePrice } = req.body
 
-      const data = {
+      const premiereData = {
         movie_id: movie,
         location_id: location,
         premiere_name: premiereName,
@@ -17,19 +17,7 @@ module.exports = {
 
       // Bikin proses get Data sebelum if else
 
-      const checkPremiere = await premiereModel.getPremiereByItsName(
-        premiereName
-      )
-
-      const checkLocationId = await premiereModel.getLocationByItsId(location)
-
-      console.log(checkPremiere)
-
-      if (checkLocationId.length <= 0) {
-        return helper.response(res, 400, 'Location not available')
-      }
-
-      const result = await premiereModel.insertpremiere(data)
+      const result = await premiereModel.insertpremiere(premiereData)
       return helper.response(res, 200, 'The schedule have been posted!', result)
     } catch (error) {
       console.log(error)

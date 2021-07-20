@@ -1,19 +1,24 @@
 const connection = require('../../config/mysql')
 
 module.exports = {
-  insertpremiere: (data) => {
+  insertpremiere: (premiereData) => {
     return new Promise((resolve, reject) => {
-      connection.query('INSERT INTO premiere SET ?', data, (error, result) => {
-        if (!error) {
-          const newResult = {
-            id: result.insertId,
-            ...data
+      connection.query(
+        'INSERT INTO premiere SET ?',
+        premiereData,
+        (error, result) => {
+          if (!error) {
+            console.log(error)
+            const newResult = {
+              id: result.insertId,
+              ...premiereData
+            }
+            resolve(newResult)
+          } else {
+            reject(new Error(error))
           }
-          resolve(newResult)
-        } else {
-          reject(new Error(error))
         }
-      })
+      )
     })
   },
   getDataById: (id) => {

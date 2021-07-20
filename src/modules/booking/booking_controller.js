@@ -6,35 +6,45 @@ require('dotenv').config()
 module.exports = {
   newbooking: async (req, res) => {
     try {
-      const { movie, location, premiereName, premierePrice } = req.body
+      const {
+        bookingId,
+        location,
+        premiereName,
+        premierePrice,
+        bookingTicket,
+        bookingPaymentMethod,
+        bookingTotalPrice
+      } = req.body
 
       const data = {
-        movie_id: movie,
-        location_id: location,
-        premiere_name: premiereName,
-        premiere_price: premierePrice
+        booking_id: bookingId,
+        user_id: location,
+        premiere_id: premiereName,
+        show_time_id: premierePrice,
+        booking_ticket: bookingTicket,
+        booking_payment_method: bookingPaymentMethod,
+        booking_total_price: bookingTotalPrice
       }
-
-      // Bikin proses get Data sebelum if else
-
-      const checkPremiere = await bookingModel.getPremiereByItsName(
-        premiereName
-      )
-
-      const checkLocationId = await bookingModel.getLocationByItsId(location)
-
-      console.log(checkPremiere)
-
-      if (checkPremiere.length <= 0) {
-        return helper.response(res, 404, 'Premiere name is not valid')
-      }
-      if (checkLocationId.length <= 0) {
-        return helper.response(res, 400, 'Location not available')
-      }
-
-      const result = await bookingModel.insertpremiere(data)
-      return helper.response(res, 200, 'The schedule have been posted!', result)
+      const result = await bookingModel.insertbooking(data)
+      return helper.response(res, 200, 'Booking have been posted!', result)
     } catch (error) {
+      console.log(error)
+      console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  newbookingseat: async (req, res) => {
+    try {
+      const { bookingSeat, bookingSeatLocation } = req.body
+
+      const data = {
+        booking_seat: bookingSeat,
+        booking_seat_location: bookingSeatLocation
+      }
+      const result = await bookingModel.insertBookingSeat(data)
+      return helper.response(res, 200, 'Booking seat have been posted!', result)
+    } catch (error) {
+      console.log(error)
       console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }

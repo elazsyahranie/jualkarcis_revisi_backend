@@ -1,9 +1,9 @@
 const connection = require('../../config/mysql')
 
 module.exports = {
-  insertpremiere: (data) => {
+  insertbooking: (data) => {
     return new Promise((resolve, reject) => {
-      connection.query('INSERT INTO premiere SET ?', data, (error, result) => {
+      connection.query('INSERT INTO booking SET ?', data, (error, result) => {
         if (!error) {
           const newResult = {
             id: result.insertId,
@@ -14,6 +14,25 @@ module.exports = {
           reject(new Error(error))
         }
       })
+    })
+  },
+  insertBookingSeat: (data) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'INSERT INTO booking_seat SET ?',
+        data,
+        (error, result) => {
+          if (!error) {
+            const newResult = {
+              id: result.insertId,
+              ...data
+            }
+            resolve(newResult)
+          } else {
+            reject(new Error(error))
+          }
+        }
+      )
     })
   },
   getDataById: (id) => {

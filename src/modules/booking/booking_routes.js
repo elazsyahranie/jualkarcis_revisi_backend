@@ -4,6 +4,7 @@ const Route = express.Router()
 
 const {
   newbooking,
+  newbookingseat,
   getMovieDataId,
   getBookingById,
   updatePremiere,
@@ -11,6 +12,7 @@ const {
 } = require('./booking_controller')
 
 Route.post('/booking', newbooking)
+Route.post('/booking-seat', newbookingseat)
 Route.get('/premiere_movie/:id', getMovieDataId)
 Route.get('/:id', getBookingById)
 Route.patch('/:id', updatePremiere)

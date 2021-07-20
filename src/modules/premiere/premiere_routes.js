@@ -10,7 +10,7 @@ const {
   deletePremiere
 } = require('./premiere_controller')
 
-Route.post('/premiere', newpremiere)
+Route.post('/', newpremiere)
 Route.get('/premiere_movie/:id', getMovieDataId)
 Route.get('/:id', getpremiereById)
 Route.patch('/:id', updatePremiere)
