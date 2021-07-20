@@ -1,10 +1,10 @@
 const helper = require('../../helpers/wrapper')
 // const movieModel = require('../movie/movie_model')
-const premiereModel = require('./premiere_model')
+const bookingModel = require('./booking_model')
 require('dotenv').config()
 
 module.exports = {
-  newpremiere: async (req, res) => {
+  newbooking: async (req, res) => {
     try {
       const { movie, location, premiereName, premierePrice } = req.body
 
@@ -17,19 +17,22 @@ module.exports = {
 
       // Bikin proses get Data sebelum if else
 
-      const checkPremiere = await premiereModel.getPremiereByItsName(
+      const checkPremiere = await bookingModel.getPremiereByItsName(
         premiereName
       )
 
-      const checkLocationId = await premiereModel.getLocationByItsId(location)
+      const checkLocationId = await bookingModel.getLocationByItsId(location)
 
       console.log(checkPremiere)
 
+      if (checkPremiere.length <= 0) {
+        return helper.response(res, 404, 'Premiere name is not valid')
+      }
       if (checkLocationId.length <= 0) {
         return helper.response(res, 400, 'Location not available')
       }
 
-      const result = await premiereModel.insertpremiere(data)
+      const result = await bookingModel.insertpremiere(data)
       return helper.response(res, 200, 'The schedule have been posted!', result)
     } catch (error) {
       console.log(error)
@@ -39,7 +42,7 @@ module.exports = {
   getMovieDataId: async (req, res) => {
     try {
       const { movieName } = req.body
-      const result = await premiereModel.getMovieDataById(movieName)
+      const result = await bookingModel.getMovieDataById(movieName)
       console.log(result[0])
       if (result.length > 0) {
         return helper.response(res, 200, 'Success Get movie Data!', result)
@@ -50,10 +53,10 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
-  getpremiereById: async (req, res) => {
+  getBookingById: async (req, res) => {
     try {
       const { id } = req.params
-      const result = await premiereModel.getDataById(id)
+      const result = await bookingModel.getDataById(id)
       if (result.length > 0) {
         // client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
@@ -88,9 +91,9 @@ module.exports = {
         premiere_updated_at: new Date(Date.now())
       }
 
-      const checkMovieData = await premiereModel.getMovieDataByItsName(movie)
+      const checkMovieData = await bookingModel.getMovieDataByItsName(movie)
 
-      const checkLocationId = await premiereModel.getLocationByItsId(location)
+      const checkLocationId = await bookingModel.getLocationByItsId(location)
 
       console.log(checkMovieData)
 
@@ -102,7 +105,7 @@ module.exports = {
         return helper.response(res, 400, 'Location not available')
       }
 
-      const result = await premiereModel.updateData(setData, id)
+      const result = await bookingModel.updateData(setData, id)
       return helper.response(
         res,
         200,
@@ -118,11 +121,11 @@ module.exports = {
   deletePremiere: async (req, res) => {
     try {
       const { id } = req.params
-      const checkUserData = await premiereModel.getDataByCondition({
+      const checkUserData = await bookingModel.getDataByCondition({
         user_id: id
       })
       if (checkUserData.length > 0) {
-        const result = await premiereModel.deleteData(id)
+        const result = await bookingModel.deleteData(id)
         return helper.response(
           res,
           200,

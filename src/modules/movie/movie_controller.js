@@ -59,7 +59,7 @@ module.exports = {
 
       const totalData = await movieModel.getDataCount(search)
       const totalPage = Math.ceil(totalData / limit)
-      const offset = limit - limit
+      const offset = page * limit - limit
       const pageInfo = {
         page,
         totalPage,
@@ -73,7 +73,7 @@ module.exports = {
         sort,
         search
       )
-      console.log(req.query)
+      console.log(limit, offset)
       // client.setex(
       //   `getmovieallbypagination:${JSON.stringify(req.query)}`,
       //   3600,
