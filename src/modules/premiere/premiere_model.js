@@ -19,7 +19,7 @@ module.exports = {
   getDataById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM premiere JOIN movie ON premiere.movie_id = movie.movie_id WHERE premiere.movie_id = ${id}`,
+        `SELECT * FROM premiere JOIN movie ON premiere.movie_id = movie.movie_id WHERE premiere.premiere_id = ${id}`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }
