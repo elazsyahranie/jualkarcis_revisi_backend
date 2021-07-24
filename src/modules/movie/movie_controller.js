@@ -172,6 +172,42 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
+  updateMovieImage: async (req, res) => {
+    try {
+      const { id } = req.params
+      const checkMovieData = await movieModel.getDataByCondition({
+        movie_id: id
+      })
+
+      // console.log(`This is it! ${checkMovieData}`)
+
+      const setUpdateImage = {
+        movie_image: req.file ? req.file.filename : '',
+        movie_updated_at: new Date(Date.now())
+      }
+      if (checkMovieData.length > 0) {
+        const result = await movieModel.updateData(setUpdateImage, {
+          movie_id: id
+        })
+        return helper.response(
+          res,
+          200,
+          `Sucess Update Image of Movie Data By Id: ${id}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `Movie Data By Id ${id} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
   deletemovie: async (req, res) => {
     try {
       const { id } = req.params

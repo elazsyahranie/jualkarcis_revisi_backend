@@ -15,6 +15,7 @@ const {
   getAllMoviePagination,
   getmovieDataById,
   updatemovieData,
+  updateMovieImage,
   deletemovie,
   deleteMovieImage
 } = require('./movie_controller')
@@ -35,6 +36,12 @@ Route.get(
   getmovieDataById
 )
 Route.patch('/:id', authentication, isAdmin, uploads, updatemovieData)
+Route.patch(
+  '/update-movie-image/:id',
+  authentication,
+  uploads,
+  updateMovieImage
+)
 Route.delete('/:id', authentication, isAdmin, deletemovie)
 Route.delete(
   '/delete-movie-image/:id',
