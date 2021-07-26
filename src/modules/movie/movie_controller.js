@@ -88,39 +88,19 @@ module.exports = {
     try {
       const { id } = req.params
       const result = await movieModel.getDataById(id)
-      const resultPremiere = await movieModel.getPremiereDataById(id)
-      // const premiereStringified = JSON.stringify(resultPremiere)
-      // const premiereReParsed = JSON.parse(premiereStringified)
-      // console.log(premiereStringified)
-      // console.log(premiereReParsed)
-      // console.log(result)
-      if (result.length > 0 && resultPremiere.length > 0) {
+      // const resultPremiere = await movieModel.getPremiereDataById(id)
+      if (result.length > 0) {
         client.set(`getmovie:${id}`, JSON.stringify(result))
-        client.set(`getpremiereofmovie:${id}`, JSON.stringify(resultPremiere))
+        // client.set(`getpremiereofmovie:${id}`, JSON.stringify(resultPremiere))
         return helper.response(
           res,
           200,
           `Success Get movie Data By Id: ${id}`,
-          result,
-          resultPremiere
+          result
         )
-      } else if (result.length > 0 && resultPremiere.length <= 0) {
+      } else if (result.length <= 0) {
         client.set(`getmovie:${id}`, JSON.stringify(result))
-        return helper.response(
-          res,
-          200,
-          `Success Get movie Data By Id: ${id}, but not Premiere Data`,
-          result,
-          null
-        )
-      } else if (result.length <= 0 && resultPremiere <= 0) {
-        client.set(`getmovie:${id}`, JSON.stringify(result))
-        return helper.response(
-          res,
-          404,
-          'Both movie data and premiere not found!',
-          null
-        )
+        return helper.response(res, 404, 'Movie data not found!', null)
       }
     } catch (error) {
       console.log(error)

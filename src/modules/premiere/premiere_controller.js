@@ -64,6 +64,35 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
+  getpremiereMovieLocation: async (req, res) => {
+    try {
+      const { movieId, locationId } = req.params
+      const result = await premiereModel.getPremiereMovieLocation(
+        movieId,
+        locationId
+      )
+      if (result.length > 0) {
+        // client.set(`getmovie:${id}`, JSON.stringify(result))
+        return helper.response(
+          res,
+          200,
+          `Success Get Premiere Data By Movie Id: ${movieId} and Location Id: ${locationId}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `Premiere Data By Movie Id: ${movieId} and Location Id: ${locationId} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      console.log('This is REQ QUERY - ' + req.query)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
   updatePremiere: async (req, res) => {
     try {
       const { id } = req.params

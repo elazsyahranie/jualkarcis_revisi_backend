@@ -31,6 +31,16 @@ module.exports = {
       )
     })
   },
+  getPremiereMovieLocation: (movieId, locationId) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM premiere WHERE movie_id = ${movieId} AND location_id = ${locationId}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
   getMovieDataById: (movieId) => {
     return new Promise((resolve, reject) => {
       connection.query(

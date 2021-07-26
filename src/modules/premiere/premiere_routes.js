@@ -6,13 +6,15 @@ const {
   newpremiere,
   getMovieDataId,
   getpremiereById,
+  getpremiereMovieLocation,
   updatePremiere,
   deletePremiere
 } = require('./premiere_controller')
 
 Route.post('/', newpremiere)
-Route.get('/premiere_movie/:id', getMovieDataId)
+Route.get('/:movieId/:locationId', getpremiereMovieLocation)
 Route.get('/:id', getpremiereById)
+Route.get('/premiere_movie/:id', getMovieDataId)
 Route.patch('/:id', updatePremiere)
 Route.delete('/:id', deletePremiere)
 
