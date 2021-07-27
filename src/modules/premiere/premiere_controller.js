@@ -72,7 +72,6 @@ module.exports = {
         locationId
       )
       if (result.length > 0) {
-        // client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,
