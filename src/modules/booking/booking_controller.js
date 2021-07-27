@@ -7,23 +7,21 @@ module.exports = {
   newbooking: async (req, res) => {
     try {
       const {
-        bookingId,
         location,
-        premiereName,
-        premierePrice,
+        premiereId,
+        showTimeId,
         bookingTicket,
-        bookingPaymentMethod,
-        bookingTotalPrice
+        bookingTotalPrice,
+        bookingPaymentMethod
       } = req.body
 
       const data = {
-        booking_id: bookingId,
         user_id: location,
-        premiere_id: premiereName,
-        show_time_id: premierePrice,
+        premiere_id: premiereId,
+        show_time_id: showTimeId,
         booking_ticket: bookingTicket,
-        booking_payment_method: bookingPaymentMethod,
-        booking_total_price: bookingTotalPrice
+        booking_total_price: bookingTotalPrice,
+        booking_payment_method: bookingPaymentMethod
       }
       const result = await bookingModel.insertbooking(data)
       return helper.response(res, 200, 'Booking have been posted!', result)
@@ -35,11 +33,10 @@ module.exports = {
   },
   newbookingseat: async (req, res) => {
     try {
-      const { bookingSeat, bookingSeatLocation } = req.body
+      const { bookingSeatLocation } = req.body
 
       const data = {
-        booking_seat: bookingSeat,
-        booking_seat_location: bookingSeatLocation
+        booking_seat: bookingSeatLocation
       }
       const result = await bookingModel.insertBookingSeat(data)
       return helper.response(res, 200, 'Booking seat have been posted!', result)

@@ -11,5 +11,13 @@ module.exports = {
         }
       )
     })
+  },
+  getAllData: () => {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM location', (error, result) => {
+        console.log(error)
+        !error ? resolve(result) : reject(new Error(error))
+      })
+    })
   }
 }
