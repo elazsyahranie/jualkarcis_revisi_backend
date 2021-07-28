@@ -1,13 +1,8 @@
-<h1 align="center">Jualkarcis Restful API</h1>
+<h1 align="center">React JS - Jualkarcis</h1>
 
-Need tickets but got no time? Worry not, here you can buy ticket, and find new movies on theatres instantly! On Tickitz.com!
+Tickitz is an app that will help you to get the tickets of latest movies on theaters! You no longer need to wait in line for hours, just sit back, open Tickitz on your phone, and find latest movies on theater. Book your seats, pay with eMoney and download your tickets!
 
-## Built With
-
-[![Express.js](https://img.shields.io/badge/Express.js-4.x-orange.svg?style=rounded-square)](https://expressjs.com/en/starter/installing.html)
-[![Node.js](https://img.shields.io/badge/Node.js-v.12.13-green.svg?style=rounded-square)](https://nodejs.org/)
-
-[More about Express](https://en.wikipedia.org/wiki/Express.js)
+<!-- ![Image Banner](src/assets/img/banner.png) -->
 
 ## Requirements
 

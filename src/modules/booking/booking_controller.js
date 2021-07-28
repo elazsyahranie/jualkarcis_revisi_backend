@@ -7,7 +7,7 @@ module.exports = {
   newbooking: async (req, res) => {
     try {
       const {
-        location,
+        userId,
         premiereId,
         showTimeId,
         bookingTicket,
@@ -16,7 +16,7 @@ module.exports = {
       } = req.body
 
       const data = {
-        user_id: location,
+        user_id: userId,
         premiere_id: premiereId,
         show_time_id: showTimeId,
         booking_ticket: bookingTicket,

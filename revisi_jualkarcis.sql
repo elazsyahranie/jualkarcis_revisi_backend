@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2021 at 06:48 AM
+-- Generation Time: Jul 28, 2021 at 09:41 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -45,15 +45,7 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`booking_id`, `user_id`, `premiere_id`, `show_time_id`, `booking_ticket`, `booking_total_price`, `booking_payment_method`, `booking_status`, `booking_created_at`, `booking_updated_at`) VALUES
-(1, NULL, 18, 0, 3, 30, NULL, NULL, '2021-07-28 04:37:54', NULL),
-(2, NULL, 18, 0, 4, 40, NULL, NULL, '2021-07-28 04:38:20', NULL),
-(3, NULL, 18, 0, 5, 50, NULL, NULL, '2021-07-28 04:39:49', NULL),
-(4, NULL, 18, 0, 4, 40, NULL, NULL, '2021-07-28 04:41:27', NULL),
-(5, NULL, 18, 0, 4, 40, NULL, NULL, '2021-07-28 04:42:36', NULL),
-(6, NULL, 18, 0, 4, 40, NULL, NULL, '2021-07-28 04:43:34', NULL),
-(7, NULL, 18, 0, 3, 30, NULL, NULL, '2021-07-28 04:44:58', NULL),
-(8, NULL, 18, 0, 4, 40, NULL, NULL, '2021-07-28 04:45:48', NULL),
-(9, NULL, 18, 0, 4, 40, NULL, NULL, '2021-07-28 04:47:13', NULL);
+(1, 1, 18, 0, 4, 40, NULL, NULL, '2021-07-28 07:37:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -66,6 +58,15 @@ CREATE TABLE `booking_seat` (
   `booking_id` int(11) DEFAULT NULL,
   `booking_seat_location` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `booking_seat`
+--
+
+INSERT INTO `booking_seat` (`booking_seat_id`, `booking_id`, `booking_seat_location`) VALUES
+(1, 22, 'F8,F7,G6,G5'),
+(2, 23, 'G10,E12,F11'),
+(3, 1, 'F7,G7,G5,G6');
 
 -- --------------------------------------------------------
 
@@ -268,13 +269,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `booking_seat`
 --
 ALTER TABLE `booking_seat`
-  MODIFY `booking_seat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `booking_seat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `location`
