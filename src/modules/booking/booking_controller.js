@@ -33,10 +33,11 @@ module.exports = {
   },
   newbookingseat: async (req, res) => {
     try {
-      const { bookingSeatLocation } = req.body
+      const { bookingId, bookingSeatLocation } = req.body
 
       const data = {
-        booking_seat: bookingSeatLocation
+        booking_id: bookingId,
+        booking_seat_location: bookingSeatLocation
       }
       const result = await bookingModel.insertBookingSeat(data)
       return helper.response(res, 200, 'Booking seat have been posted!', result)

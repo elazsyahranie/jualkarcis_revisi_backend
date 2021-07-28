@@ -5,8 +5,10 @@ const { authentication, isAdmin } = require('../../middleware/auth')
 
 const {
   getMovieByIdRedis,
-  getPremiereofMovieByIdRedis,
-  getAllMovieByRedis
+  getAllMovieByPaginationAndRedis,
+  // getPremiereofMovieByIdRedis,
+  getAllMovieByRedis,
+  clearDataMovieRedis
 } = require('../../middleware/redis')
 
 const {
@@ -20,33 +22,49 @@ const {
   deleteMovieImage
 } = require('./movie_controller')
 
-Route.post('/', uploads, createmovie)
+Route.post('/', uploads, clearDataMovieRedis, createmovie)
 Route.get('/', authentication, getAllMovieByRedis, getAllMovie)
 Route.get(
   '/pagination',
   authentication,
-  // getAllMovieByPaginationAndRedis,
+  getAllMovieByPaginationAndRedis,
   getAllMoviePagination
 )
 Route.get(
   '/:id',
   authentication,
-  // getMovieByIdRedis,
+  getMovieByIdRedis,
   // getPremiereofMovieByIdRedis,
   getmovieDataById
 )
-Route.patch('/:id', authentication, isAdmin, uploads, updatemovieData)
+Route.patch(
+  '/:id',
+  authentication,
+  isAdmin,
+  uploads,
+  clearDataMovieRedis,
+  updatemovieData
+)
+Route.patch(
+  'update-movie-image/:id',
+  authentication,
+  isAdmin,
+  uploads,
+  clearDataMovieRedis,
+  updateMovieImage
+)
 Route.patch(
   '/update-movie-image/:id',
   authentication,
   uploads,
   updateMovieImage
 )
-Route.delete('/:id', authentication, isAdmin, deletemovie)
+Route.delete('/:id', authentication, isAdmin, clearDataMovieRedis, deletemovie)
 Route.delete(
   '/delete-movie-image/:id',
   authentication,
   isAdmin,
+  clearDataMovieRedis,
   deleteMovieImage
 )
 

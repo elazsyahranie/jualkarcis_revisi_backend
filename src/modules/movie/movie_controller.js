@@ -74,11 +74,11 @@ module.exports = {
         search
       )
       console.log(limit, offset)
-      // client.setex(
-      //   `getmovieallbypagination:${JSON.stringify(req.query)}`,
-      //   3600,
-      //   JSON.stringify({ result, pageInfo })
-      // )
+      client.setex(
+        `getmovieallbypagination:${JSON.stringify(req.query)}`,
+        3600,
+        JSON.stringify({ result, pageInfo })
+      )
       return helper.response(res, 200, 'Success Get Data', result, pageInfo)
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
