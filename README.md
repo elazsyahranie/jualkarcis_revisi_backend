@@ -1,8 +1,13 @@
-<h1 align="center">React JS - Jualkarcis</h1>
+<h1 align='center'>React JS - Jualkarcis</h1>
+  <p align="center">
+    <a href="link_deploy">View Demo</a>
+    ·
+    <a href="https://github.com/akbarsaladin36/job-bridge-hire-jobs-project-app/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/akbarsaladin36/job-bridge-hire-jobs-project-app/pulls">Request Feature</a>
+  </p>
 
-Tickitz is an app that will help you to get the tickets of latest movies on theaters! You no longer need to wait in line for hours, just sit back, open Tickitz on your phone, and find latest movies on theater. Book your seats, pay with eMoney and download your tickets!
-
-<!-- ![Image Banner](src/assets/img/banner.png) -->
+![Image Banner](src/assets/img/banner.png)
 
 ## Requirements
 
