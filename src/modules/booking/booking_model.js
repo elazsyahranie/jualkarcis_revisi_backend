@@ -45,6 +45,16 @@ module.exports = {
       )
     })
   },
+  getDataBookingById: (userId, movieId) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM booking JOIN booking_seat ON booking.booking_id = booking_seat.booking_id WHERE booking.user_id = ${userId} AND booking.movie_id = ${movieId}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
   getMovieDataById: (movieId) => {
     return new Promise((resolve, reject) => {
       connection.query(

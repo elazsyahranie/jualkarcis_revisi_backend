@@ -114,6 +114,7 @@ module.exports = {
         movieName,
         movieGenre,
         movieReleaseDate,
+        movieDirector,
         movieDuration,
         movieCasts,
         movieSynopsis
@@ -123,7 +124,8 @@ module.exports = {
         movie_name: movieName,
         movie_genre: movieGenre,
         movie_release_date: movieReleaseDate,
-        movie_image: req.file ? req.file.filename : '',
+        // movie_image: req.file ? req.file.filename : '',
+        movie_directed_by: movieDirector,
         movie_duration: movieDuration,
         movie_casts: movieCasts,
         movie_synopsis: movieSynopsis,
@@ -158,7 +160,7 @@ module.exports = {
       const checkMovieData = await movieModel.getDataByCondition({
         movie_id: id
       })
-
+      console.log(req.file)
       // console.log(`This is it! ${checkMovieData}`)
 
       const setUpdateImage = {

@@ -46,17 +46,11 @@ Route.patch(
   updatemovieData
 )
 Route.patch(
-  'update-movie-image/:id',
+  '/update-movie-image/:id',
   authentication,
   isAdmin,
   uploads,
   clearDataMovieRedis,
-  updateMovieImage
-)
-Route.patch(
-  '/update-movie-image/:id',
-  authentication,
-  uploads,
   updateMovieImage
 )
 Route.delete('/:id', authentication, isAdmin, clearDataMovieRedis, deletemovie)

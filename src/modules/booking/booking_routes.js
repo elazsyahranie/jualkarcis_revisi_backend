@@ -14,7 +14,7 @@ const {
 Route.post('/booking', newbooking)
 Route.post('/booking-seat', newbookingseat)
 Route.get('/premiere_movie/:id', getMovieDataId)
-Route.get('/:id', getBookingById)
+Route.get('/:userId/:movieId', getBookingById)
 Route.patch('/:id', updatePremiere)
 Route.delete('/:id', deletePremiere)
 

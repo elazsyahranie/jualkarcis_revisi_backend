@@ -8,7 +8,7 @@ module.exports = {
     try {
       const {
         userId,
-        premiereId,
+        movieId,
         showTimeId,
         bookingTicket,
         bookingTotalPrice,
@@ -17,7 +17,7 @@ module.exports = {
 
       const data = {
         user_id: userId,
-        premiere_id: premiereId,
+        movie_id: movieId,
         show_time_id: showTimeId,
         booking_ticket: bookingTicket,
         booking_total_price: bookingTotalPrice,
@@ -63,21 +63,21 @@ module.exports = {
   },
   getBookingById: async (req, res) => {
     try {
-      const { id } = req.params
-      const result = await bookingModel.getDataById(id)
+      const { userId, movieId } = req.params
+      const result = await bookingModel.getDataBookingById(userId, movieId)
       if (result.length > 0) {
         // client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,
-          `Success Get Premiere Data By Id: ${id}`,
+          `Success Get Booking Data By User Id: ${userId} and movie Id : ${movieId}`,
           result
         )
       } else {
         return helper.response(
           res,
           404,
-          `Data Premiere Data By Id: ${id} Not Found`,
+          `Premiere Data By User Id: ${userId} and movie Id : ${movieId} Not Found`,
           null
         )
       }
