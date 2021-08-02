@@ -33,10 +33,11 @@ module.exports = {
   },
   newbookingseat: async (req, res) => {
     try {
-      const { bookingId, bookingSeatLocation } = req.body
+      const { bookingId, movieId, bookingSeatLocation } = req.body
 
       const data = {
         booking_id: bookingId,
+        movie_id: movieId,
         booking_seat_location: bookingSeatLocation
       }
       const result = await bookingModel.insertBookingSeat(data)
@@ -63,27 +64,27 @@ module.exports = {
   },
   getBookingById: async (req, res) => {
     try {
-      const { userId, movieId } = req.params
-      const result = await bookingModel.getDataBookingById(userId, movieId)
+      const { movieId } = req.params
+      const result = await bookingModel.getDataBookingById(movieId)
       if (result.length > 0) {
         // client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
           res,
           200,
-          `Success Get Booking Data By User Id: ${userId} and movie Id : ${movieId}`,
+          `Success Get Booking Data By Movie Id : ${movieId}`,
           result
         )
       } else {
         return helper.response(
           res,
           404,
-          `Premiere Data By User Id: ${userId} and movie Id : ${movieId} Not Found`,
+          `Booking Data By Movie Id : ${movieId} Not Found`,
           null
         )
       }
     } catch (error) {
       console.log(error)
-      console.log('This is REQ QUERY - ' + req.query)
+      // console.log('This is REQ QUERY - ' + req.query)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
