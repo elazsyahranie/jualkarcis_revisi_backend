@@ -226,7 +226,7 @@ module.exports = {
       } else {
         jwt.verify(token, process.env.PRIVATE_KEY, (error, result) => {
           if (
-            (edrror && error.name === 'JsonWebTokenError') ||
+            (error && error.name === 'JsonWebTokenError') ||
             (error && error.name === 'TokenExpiredError')
           ) {
             return helper.response(res, 403, error.message)

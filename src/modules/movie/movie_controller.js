@@ -39,7 +39,7 @@ module.exports = {
     try {
       const result = await movieModel.getAllData()
       if (result.length > 0) {
-        client.setex('getmovieall', 3600, JSON.stringify(result))
+        client.set('getmovieall', JSON.stringify(result))
         return helper.response(res, 200, 'Success Get All Data movie', result)
       } else {
         return helper.response(res, 404, 'Data Not Found', null)
@@ -74,9 +74,8 @@ module.exports = {
         search
       )
       console.log(limit, offset)
-      client.setex(
+      client.set(
         `getmovieallbypagination:${JSON.stringify(req.query)}`,
-        3600,
         JSON.stringify({ result, pageInfo })
       )
       return helper.response(res, 200, 'Success Get Data', result, pageInfo)
