@@ -117,19 +117,15 @@ module.exports = {
   updateBooking: async (req, res) => {
     try {
       const { id } = req.params
-      const { bookingStatus } = req.body
+      const { bookingPaymentMethod, bookingStatus } = req.body
       const data = {
+        booking_payment_method: bookingPaymentMethod,
         booking_status: bookingStatus,
         booking_updated_at: new Date(Date.now())
       }
-
-      const result = await bookingModel.updateData(data, id)
-      return helper.response(
-        res,
-        200,
-        'Booking data has been updated!',
-        result
-      )
+      const result = await bookingModel.updateData(data, { booking_id: id })
+      console.log(result)
+      return helper.response(res, 200, 'Booking data has been updated!', result)
     } catch (error) {
       console.log(error)
       return helper.response(res, 400, 'Bad Request', error)

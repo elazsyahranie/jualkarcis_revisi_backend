@@ -111,14 +111,17 @@ module.exports = {
       )
     })
   },
-  updateData: (data, id) => {
+  updateData: (data, condition) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `UPDATE booking SET booking_status = ${data} WHERE premiere_id = ${id}`,
+        'UPDATE booking SET ? WHERE ?',
+        [data, condition],
         (error, result) => {
+          // console.log(error)
+          // console.log(result)
           if (!error) {
             const newResult = {
-              id: id,
+              ...condition,
               ...data
             }
             resolve(newResult)
