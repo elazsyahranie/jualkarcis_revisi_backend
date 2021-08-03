@@ -114,37 +114,20 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
-  updatePremiere: async (req, res) => {
+  updateBooking: async (req, res) => {
     try {
       const { id } = req.params
-      const { location, movie, premiereName, premierePrice } = req.body
-      const setData = {
-        movie_id: movie,
-        location_id: location,
-        premiere_name: premiereName,
-        premiere_price: premierePrice,
-        premiere_updated_at: new Date(Date.now())
+      const { bookingStatus } = req.body
+      const data = {
+        booking_status: bookingStatus,
+        booking_updated_at: new Date(Date.now())
       }
 
-      const checkMovieData = await bookingModel.getMovieDataByItsName(movie)
-
-      const checkLocationId = await bookingModel.getLocationByItsId(location)
-
-      console.log(checkMovieData)
-
-      console.log(checkLocationId)
-      if (checkMovieData.length <= 0) {
-        return helper.response(res, 404, 'Movie name don`t exists!')
-      }
-      if (checkLocationId.length <= 0) {
-        return helper.response(res, 400, 'Location not available')
-      }
-
-      const result = await bookingModel.updateData(setData, id)
+      const result = await bookingModel.updateData(data, id)
       return helper.response(
         res,
         200,
-        'Premiere data has been updated!',
+        'Booking data has been updated!',
         result
       )
     } catch (error) {

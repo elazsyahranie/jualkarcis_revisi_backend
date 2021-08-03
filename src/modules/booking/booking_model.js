@@ -111,16 +111,15 @@ module.exports = {
       )
     })
   },
-  updateData: (setData, id) => {
+  updateData: (data, id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `UPDATE premiere SET ? WHERE premiere_id = ${id}`,
-        setData,
+        `UPDATE booking SET booking_status = ${data} WHERE premiere_id = ${id}`,
         (error, result) => {
           if (!error) {
             const newResult = {
               id: id,
-              ...setData
+              ...data
             }
             resolve(newResult)
           } else {

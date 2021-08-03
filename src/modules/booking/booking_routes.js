@@ -8,7 +8,7 @@ const {
   getMovieDataId,
   getBookingById,
   getBookingSeatByMovieId,
-  updatePremiere,
+  updateBooking,
   deletePremiere
 } = require('./booking_controller')
 
@@ -17,7 +17,7 @@ Route.post('/booking-seat', newbookingseat)
 Route.get('/premiere_movie/:id', getMovieDataId)
 Route.get('/:movieId', getBookingById)
 Route.get('/booking-seat-movie-id/:movieId', getBookingSeatByMovieId)
-Route.patch('/:id', updatePremiere)
+Route.patch('/:id', updateBooking)
 Route.delete('/:id', deletePremiere)
 
 // Route.get('/change-data/:token', authController.changeData)
