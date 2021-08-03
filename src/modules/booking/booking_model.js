@@ -45,11 +45,21 @@ module.exports = {
       )
     })
   },
-  getDataBookingById: (movieId) => {
+  getDataBookingByMovieId: (movieId) => {
     return new Promise((resolve, reject) => {
       connection.query(
         // `SELECT * FROM booking JOIN booking_seat ON booking.booking_id = booking_seat.booking_id WHERE booking.movie_id = ${movieId}`,
         `SELECT * FROM booking WHERE movie_id = ${movieId}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getDataBookingByBookingId: (bookingId) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM booking WHERE booking_id = ${bookingId}`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }

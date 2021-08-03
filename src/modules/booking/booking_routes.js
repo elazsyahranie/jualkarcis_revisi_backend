@@ -6,7 +6,8 @@ const {
   newbooking,
   newbookingseat,
   getMovieDataId,
-  getBookingById,
+  getBookingByMovieId,
+  getBookingByBookingId,
   getBookingSeatByMovieId,
   updateBooking,
   deletePremiere
@@ -15,7 +16,8 @@ const {
 Route.post('/booking', newbooking)
 Route.post('/booking-seat', newbookingseat)
 Route.get('/premiere_movie/:id', getMovieDataId)
-Route.get('/:movieId', getBookingById)
+Route.get('/:movieId', getBookingByMovieId)
+Route.get('/bookingId/:bookingId', getBookingByBookingId)
 Route.get('/booking-seat-movie-id/:movieId', getBookingSeatByMovieId)
 Route.patch('/:id', updateBooking)
 Route.delete('/:id', deletePremiere)

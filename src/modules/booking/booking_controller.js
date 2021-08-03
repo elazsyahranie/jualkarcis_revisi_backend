@@ -62,10 +62,10 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
-  getBookingById: async (req, res) => {
+  getBookingByMovieId: async (req, res) => {
     try {
       const { movieId } = req.params
-      const result = await bookingModel.getDataBookingById(movieId)
+      const result = await bookingModel.getDataBookingByMovieId(movieId)
       if (result.length > 0) {
         // client.set(`getmovie:${id}`, JSON.stringify(result))
         return helper.response(
@@ -79,6 +79,32 @@ module.exports = {
           res,
           404,
           `Booking Data By Movie Id : ${movieId} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      // console.log('This is REQ QUERY - ' + req.query)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  getBookingByBookingId: async (req, res) => {
+    try {
+      const { bookingId } = req.params
+      const result = await bookingModel.getDataBookingByBookingId(bookingId)
+      if (result.length > 0) {
+        // client.set(`getmovie:${id}`, JSON.stringify(result))
+        return helper.response(
+          res,
+          200,
+          `Success Get Booking Data Booking Id : ${bookingId}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `Booking Data By Booking Id : ${bookingId} Not Found`,
           null
         )
       }
