@@ -48,7 +48,19 @@ module.exports = {
   getDataBookingById: (movieId) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM booking JOIN booking_seat ON booking.booking_id = booking_seat.booking_id WHERE booking.movie_id = ${movieId}`,
+        // `SELECT * FROM booking JOIN booking_seat ON booking.booking_id = booking_seat.booking_id WHERE booking.movie_id = ${movieId}`,
+        `SELECT * FROM booking WHERE movie_id = ${movieId}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getDataBookingSeatByMovieId: (movieId) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM booking_seat WHERE movie_id = ?',
+        movieId,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }
