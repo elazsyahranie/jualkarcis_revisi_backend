@@ -140,6 +140,32 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
+  getBookingSeatByBookingId: async (req, res) => {
+    try {
+      const { bookingId } = req.params
+      const result = await bookingModel.getDataBookingSeatByBookingId(bookingId)
+      if (result.length > 0) {
+        // client.set(`getmovie:${id}`, JSON.stringify(result))
+        return helper.response(
+          res,
+          200,
+          `Success Get Booking Seat Data By Id : ${bookingId}`,
+          result
+        )
+      } else {
+        return helper.response(
+          res,
+          404,
+          `Booking Seat Data By Movie Id : ${bookingId} Not Found`,
+          null
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      // console.log('This is REQ QUERY - ' + req.query)
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
   updateBooking: async (req, res) => {
     try {
       const { id } = req.params
