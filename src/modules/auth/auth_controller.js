@@ -128,7 +128,9 @@ module.exports = {
   updateUser: async (req, res) => {
     try {
       const { id } = req.params
-      const { userName, userEmail } = req.body
+      const { userName, userEmail, userPassword, userPhoneNumber } = req.body
+      const salt = bcrypt.genSaltSync(10)
+      const encryptPassword = bcrypt.hashSync(userPassword, salt)
 
       const checkUserData = await authModel.getDataByCondition({
         user_id: id
@@ -137,7 +139,8 @@ module.exports = {
       const setData = {
         user_name: userName,
         user_email: userEmail,
-        user_profile_picture: req.file ? req.file.filename : '',
+        user_password: encryptPassword,
+        user_phone: userPhoneNumber,
         user_updated_at: new Date(Date.now())
       }
 
