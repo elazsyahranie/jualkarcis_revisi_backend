@@ -13,6 +13,7 @@ const {
   getUserById,
   updateUser,
   updateUserImage,
+  changePassword,
   changeUserVerification,
   deleteUser,
   deleteUserImage
@@ -22,6 +23,7 @@ Route.post('/login', login)
 Route.post('/register', register)
 Route.patch('/:id', authentication, uploads, updateUser)
 Route.patch('/updateImage/:id', authentication, uploads, updateUserImage)
+Route.patch('/change-password/:id', authentication, changePassword)
 Route.get('/', getAllUserByRedis, getAllUsers)
 Route.get('/:id', getUserById)
 Route.get('/verify-user/:token', changeUserVerification)

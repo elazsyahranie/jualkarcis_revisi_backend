@@ -262,50 +262,42 @@ module.exports = {
     }
   },
 
-  requestChangePassword: async (req, res) => {
+  changePassword: async (req, res) => {
     try {
-      if (req.body.userPassword) {
-        const salt = bcrypt.genSaltSync(10)
-        const encryptPassword = bcrypt.hashSync(req.body.userPassword, salt)
-        req.body.userPassword = encryptPassword
+      const { id } = req.params
+      const { userPassword } = req.body
+      const salt = bcrypt.genSaltSync(10)
+      const encryptPassword = bcrypt.hashSync(userPassword, salt)
 
-        const user = await authModel.getDataCondition({
-          user_email: req.body.userEmail
+      const setData = {
+        user_password: encryptPassword,
+        user_updated_at: new Date(Date.now())
+      }
+
+      const checkUserData = await authModel.getDataByCondition({
+        user_id: id
+      })
+
+      if (checkUserData.length > 0) {
+        const result = await authModel.changePassword(setData, {
+          user_id: id
         })
-
-        const payload = {
-          userId: user[0].user_id,
-          setData: { user_password: encryptPassword }
-        }
-
-        // console.log(payload)
-        const token = jwt.sign({ ...payload }, process.env.PRIVATE_KEY, {
-          expiresIn: '1h'
-        })
-
-        const url = `http://localhost:3005/backend5/api/v1/auth/change-data/${token}`
-
-        // send email for verificatioan here
-        sendMail('Confirm your change password', url, req.body.userEmail)
-
         return helper.response(
           res,
           200,
-          'Email verification has been sent, please check your email !',
-          null
+          `Success Change User Password By Id: ${id}`,
+          result
         )
       } else {
-        const checkEmailUser = await authModel.getDataByCondition({
-          user_email: req.body.userEmail
-        })
-        if (checkEmailUser.length > 0) {
-          return helper.response(res, 200, 'Email found !', null)
-        } else {
-          return helper.response(res, 404, 'Email not found !', null)
-        }
+        return helper.response(
+          res,
+          404,
+          `User Data By Id ${id} Not Found`,
+          null
+        )
       }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
