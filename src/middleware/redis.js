@@ -26,11 +26,13 @@ module.exports = {
       (error, result) => {
         if (!error && result !== null) {
           console.log('Data ada di dalam redis')
+          const datatemp = JSON.parse(result)
           return helper.response(
             res,
             200,
             'Success: Get All Movie!',
-            JSON.parse(result)
+            datatemp.result,
+            datatemp.pageInfo
           )
         } else {
           console.log('Data tidak ada di dalam redis')
