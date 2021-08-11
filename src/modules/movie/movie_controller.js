@@ -13,6 +13,7 @@ module.exports = {
         movieGenre,
         movieReleaseDate,
         movieDuration,
+        movieDirectedBy,
         movieCasts,
         movieSynopsis
       } = req.body
@@ -23,6 +24,7 @@ module.exports = {
         movie_release_date: movieReleaseDate,
         movie_image: req.file ? req.file.filename : '',
         movie_duration: movieDuration,
+        movie_directed_by: movieDirectedBy,
         movie_casts: movieCasts,
         movie_synopsis: movieSynopsis
       }
