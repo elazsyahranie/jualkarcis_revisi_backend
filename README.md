@@ -1,13 +1,4 @@
-<h1 align='center'>React JS - Jualkarcis</h1>
-  <p align="center">
-    <a href="link_deploy">View Demo</a>
-    ·
-    <a href="https://github.com/akbarsaladin36/job-bridge-hire-jobs-project-app/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/akbarsaladin36/job-bridge-hire-jobs-project-app/pulls">Request Feature</a>
-  </p>
-
-![Image Banner](src/assets/img/banner.png)
+<h1 align='center'>Express - Jualkarcis</h1>
 
 ## Requirements
 

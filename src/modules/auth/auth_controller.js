@@ -81,12 +81,15 @@ module.exports = {
           const result = { ...payload, token }
           return helper.response(res, 200, 'Succes Login !', result)
         } else {
+          console.log('Wrong Password')
           return helper.response(res, 400, 'Wrong password')
         }
       } else {
+        console.log('Email not Registered')
         return helper.response(res, 404, 'Email not Registerd')
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
