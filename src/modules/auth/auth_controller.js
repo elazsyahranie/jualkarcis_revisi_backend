@@ -98,7 +98,7 @@ module.exports = {
     try {
       const result = await authModel.getAllData()
       if (result.length > 0) {
-        client.setex('getuserall', 3600, JSON.stringify(result))
+        client.set('getuserall', 3600, JSON.stringify(result))
         return helper.response(res, 200, 'Success Get All Data movie', result)
       } else {
         return helper.response(res, 404, 'Data Not Found', null)
@@ -113,7 +113,7 @@ module.exports = {
     try {
       const result = await authModel.getUserDataById(id)
       if (result.length > 0) {
-        client.setex('getuserall', 3600, JSON.stringify(result))
+        client.set('getuserall', 3600, JSON.stringify(result))
         return helper.response(
           res,
           200,
@@ -153,9 +153,7 @@ module.exports = {
       // console.log(setData)
 
       if (checkUserData.length > 0) {
-        const result = await authModel.updateData(setData, {
-          user_id: id
-        })
+        const result = await authModel.updateData(setData, id)
         return helper.response(
           res,
           200,
@@ -175,7 +173,6 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
-
   updateUserImage: async (req, res) => {
     try {
       const { id } = req.params
@@ -190,20 +187,14 @@ module.exports = {
       }
 
       console.log(setData)
-
-      // const originalHashedPassword = checkUserData[0].user_password
-
-      // console.log(originalHashedPassword)
-      // console.log(setData)
-
       if (checkUserData.length > 0) {
-        const result = await authModel.updateData(setData, {
+        const result = await authModel.updateUserImage(setData, {
           user_id: id
         })
         return helper.response(
           res,
           200,
-          `Success Update User Data By Id: ${id}`,
+          `Success Update User Image By Id: ${id}`,
           result
         )
       } else {
