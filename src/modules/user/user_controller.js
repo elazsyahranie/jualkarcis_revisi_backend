@@ -25,9 +25,9 @@ module.exports = {
   getUserById: async (req, res) => {
     const { id } = req.params
     try {
-      const result = await userModel.getUserDataById(id)
+      const result = await userModel.getDataByCondition({ user_id: id })
       if (result.length > 0) {
-        client.set('getuserall', 3600, JSON.stringify(result))
+        client.setex(`getuser:${id}`, 3600, JSON.stringify(result))
         return helper.response(
           res,
           200,
@@ -38,6 +38,7 @@ module.exports = {
         return helper.response(res, 404, 'Data Not Found', null)
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
@@ -181,7 +182,7 @@ module.exports = {
       })
 
       if (checkUserData.length > 0) {
-        const result = await userModel.changePassword(setData, {
+        const result = await userModel.updateData(setData, {
           user_id: id
         })
         return helper.response(

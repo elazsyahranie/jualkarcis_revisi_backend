@@ -3,7 +3,10 @@ const Route = express.Router()
 const uploads = require('../../middleware/uploads')
 const { authentication } = require('../../middleware/auth')
 
-const { getAllUserByRedis } = require('../../middleware/redis')
+const {
+  getAllUserByRedis,
+  getUserByIdRedis
+} = require('../../middleware/redis')
 
 const {
   getAllUsers,
@@ -19,8 +22,8 @@ const {
 Route.patch('/:id', authentication, uploads, updateUser)
 Route.patch('/updateImage/:id', authentication, uploads, updateUserImage)
 Route.patch('/change-password/:id', authentication, changePassword)
-Route.get('/', getAllUserByRedis, getAllUsers)
-Route.get('/:id', getUserById)
+Route.get('/', authentication, getAllUserByRedis, getAllUsers)
+Route.get('/:id', authentication, getUserByIdRedis, getUserById)
 Route.get('/verify-user/:token', changeUserVerification)
 Route.delete('/:id', authentication, deleteUser)
 Route.delete('/delete-image/:id', authentication, deleteUserImage)

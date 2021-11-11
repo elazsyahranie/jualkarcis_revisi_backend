@@ -110,5 +110,22 @@ module.exports = {
         next()
       }
     })
+  },
+  getUserByIdRedis: (req, res, next) => {
+    const { id } = req.params
+    client.get(`getuser:${id}`, (error, result) => {
+      if (!error && result !== null) {
+        console.log('Data ada di dalam redis')
+        return helper.response(
+          res,
+          200,
+          `Success Get Data by Id ${id} (Redis)`,
+          JSON.parse(result)
+        )
+      } else {
+        console.log('Data tidak ada di dalam redis')
+        next()
+      }
+    })
   }
 }
